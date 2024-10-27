@@ -54,33 +54,34 @@ long index = 0;
 	} return res;
 }
 
-
+int help() {
+	cout << "textgenp " << VERSION << endl;
+	cout << "Использование: textgenp [ПАРАМЕТР]...\n\n"
+		 << "\t-h, --help                 Выводит эту справку\n\n"
+		 << "\t-b, --base <текст>         Основной текст\n"
+		 << "\t-s, --start <текст>        Начальный текст\n"
+		 << "\t-e, --end <текст>          Конечный текст\n"
+		 << "\t-c, --count <число>        Число итераций\n\n"
+		 << "\t-o, --output-file <файл>   Выходной файл\n"
+		 << "\t                           (По умолчанию \"textgenp_output.txt\")\n\n"
+		 << "В тексте вы можете использовать переменные.\n"
+		 << "@i - индекс\n@n - новая строка\n@t - таб\n@k - ключ steam\n@p - пароль\n"
+		 << "@b - бинарное число\n"
+		 << "Чтобы вывести символ @ или /, поставьте перед ним /\n\n"
+		 << "Пример: ./textgenp -s \"[@i]@t///@n@n\" -e \"[@i]@tpassword: @p@n\" -b \"[@i]@t@k@n\" -c 15 -o test.txt\n"
+		 << endl;
+	return 0;
+}
 
 int main(int argc, char *argv[]) {
 	string arg;
 	string start, base, end;
 	string output = "textgenp_output.txt";
 	long count = 0;
-	for(int i = 0; i < argc; i++) {
+	for(int i = 1; i < argc; i++) {
 		arg = argv[i];
-		if(arg == "-h" || arg == "--help") {
-			cout << "textgenp " << VERSION << endl;
-			cout << "Использование: textgenp [ПАРАМЕТР]...\n\n"
-				 << "\t-h, --help                 Выводит эту справку\n\n"
-				 << "\t-b, --base <текст>         Основной текст\n"
-				 << "\t-s, --start <текст>        Начальный текст\n"
-				 << "\t-e, --end <текст>          Конечный текст\n"
-				 << "\t-c, --count <число>        Число итераций\n\n"
-				 << "\t-o, --output-file <файл>   Выходной файл\n"
-				 << "\t                           (По умолчанию \"textgenp_output.txt\")\n\n"
-				 << "В тексте вы можете использовать переменные.\n"
-				 << "@i - индекс\n@n - новая строка\n@t - таб\n@k - ключ steam\n@p - пароль\n"
-				 << "@b - бинарное число\n"
-				 << "Чтобы вывести символ @ или /, поставьте перед ним /\n\n"
-				 << "Пример: ./textgenp -s \"[@i]@t///@n@n\" -e \"[@i]@tpassword: @p@n\" -b \"[@i]@t@k@n\" -c 15 -o test.txt\n"
-				 << endl;
-			return 0;
-		} else if(arg == "-b" || arg == "--base") {
+		if(arg == "-h" || arg == "--help") return help();
+		else if(arg == "-b" || arg == "--base") {
 			i++; if(i < argc) {
 				base = argv[i];
 			}
@@ -101,7 +102,7 @@ int main(int argc, char *argv[]) {
 				arg = argv[i];
 				count = stol(arg);
 			}
-		} 
+		} else return help();
 	}
 	ofstream file(output);
 	file << format(start);
