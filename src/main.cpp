@@ -2,7 +2,7 @@
 #include <string>
 #include <random>
 #include <fstream>
-#define VERSION "v1.0-7924"
+#define VERSION "v1.1-271024"
 #define uchar unsigned char
 
 using namespace std;
@@ -12,6 +12,7 @@ string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxy
 uniform_int_distribution<uchar> full(0, alphabet.size());
 uniform_int_distribution<uchar> steam(0, 35);
 uniform_int_distribution<uchar> password(1, 32);
+uniform_int_distribution<uchar> binary(0, 255);
 
 string genpassword() {
 	string res = "";
@@ -27,7 +28,6 @@ string genpassword() {
 	} res = res.substr(0, res.size() - 1);
 	return res;
 }
-
 long index = 0;
 
 /*bool starts(string what, string with) {
@@ -49,9 +49,12 @@ long index = 0;
 			else if(tmp == "t") res += "\t";
 			else if(tmp == "k") res += gensteamkey();
 			else if(tmp == "p") res += genpassword();
+			else if(tmp == "b") res += binary(gen);
 		} else { res += tmp; n = false; }
 	} return res;
 }
+
+
 
 int main(int argc, char *argv[]) {
 	string arg;
@@ -72,6 +75,7 @@ int main(int argc, char *argv[]) {
 				 << "\t                           (По умолчанию \"textgenp_output.txt\")\n\n"
 				 << "В тексте вы можете использовать переменные.\n"
 				 << "@i - индекс\n@n - новая строка\n@t - таб\n@k - ключ steam\n@p - пароль\n"
+				 << "@b - бинарное число\n"
 				 << "Чтобы вывести символ @ или /, поставьте перед ним /\n\n"
 				 << "Пример: ./textgenp -s \"[@i]@t///@n@n\" -e \"[@i]@tpassword: @p@n\" -b \"[@i]@t@k@n\" -c 15 -o test.txt\n"
 				 << endl;
